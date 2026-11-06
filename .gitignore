@@ -12,17 +12,7 @@
 benchmark_enable.txt
 benchmark_baseline.txt
 
-# Local backups and scratch files
+# Local folders
 Backups/
 Diagnostics/
---nologo
-_inspect_ui.ps1
-perf_AB2_compare.txt
-CODE_REVIEW_RU.md
-HAR_1_7_PLAN_REVIEW_RU.md
-OPTIMIZATION_EVALUATION_REPORT_RU.md
-PHASE2_REPORT.md
-PLAN.md
-PLAN2.md
-Plan3.md
-RIMWORLD_1_7_COMPATIBILITY_RU.md
+plans/
