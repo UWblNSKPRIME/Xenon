@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ModMetaData>
+  <name>Xenon</name>
+  <author>wevsy</author>
+  <supportedVersions>
+    <li>1.7</li>
+  </supportedVersions>
+  <packageId>wevsy.xenon</packageId>
+  <description>
+Performance add-on for Humanoid Alien Races.
+
+Xenon does not touch HAR's files. It loads after HAR and swaps 24 of HAR's Harmony patches for versions that check a precomputed per-race table first. If the table says nothing can change for this pawn, the patch exits. Otherwise Xenon calls HAR's own code, so the result is the same as without the mod.
+
+The biggest win is need changes. Every hunger, rest, or mood tick used to make HAR queue an addon graphics rebuild for every pawn, humans included. On a test colony of 30 Miho, MoeLotl, and Milira pawns, that was about 1,500 rebuild requests every 600 ticks. None of those races change their look based on needs, so Xenon drops all of them.
+
+Other changes:
+  * Hediff add, remove, and change hooks skip races that have no addon tied to that hediff.
+  * AlienComp update replaces LINQ Intersect().Any() with a set overlap check that allocates 0 bytes.
+  * Work giver checks replace the per-call scan over all races and their work lists with two hash lookups.
+  * Head offset, body override, thoughts, apparel, and food checks skip races that do not use them.
+
+Safe to add or remove mid-save. It adds no defs and writes nothing to saves.
+
+By default there is no logging and no timing code in the game loop. The mod settings page shows the active patch count, lets you turn each module off, and has an optional benchmark log written to Xenon_Perf.log in the mod folder.
+  </description>
+  <loadAfter>
+    <li>erdelf.HumanoidAlienRaces</li>
+  </loadAfter>
+</ModMetaData>

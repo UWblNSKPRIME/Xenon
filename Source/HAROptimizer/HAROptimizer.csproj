@@ -1,0 +1,48 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <!-- Must match Humanoid Alien Races 1.7 (net10.0-windows8.0), otherwise HAROptimizer.dll
+         won't load next to AlienRace.dll in the .NET 10 runtime. -->
+    <TargetFramework>net10.0-windows8.0</TargetFramework>
+    <OutputType>Library</OutputType>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    <RootNamespace>HAROptimizer</RootNamespace>
+    <AssemblyName>HAROptimizer</AssemblyName>
+    <OutDir>$(MSBuildProjectDirectory)\..\..\1.7\Assemblies\</OutDir>
+    <OutputPath>$(MSBuildProjectDirectory)\..\..\1.7\Assemblies\</OutputPath>
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+
+    <!-- RimWorld 1.7 (Reborn) keeps its managed DLLs in the game ROOT folder
+         (Assembly-CSharp.dll, UnityStubs.dll, Waylith.dll) — no RimWorldWin64_Data\Managed.
+         Override: dotnet build -c Release -p:RimWorldDir="D:\Steam\steamapps\common\RimWorld\\" -->
+    <RimWorldDir Condition="'$(RimWorldDir)' == ''">D:\Steam\steamapps\common\RimWorld\</RimWorldDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Lib.Harmony" Version="2.3.6" />
+  </ItemGroup>
+
+  <!-- Game references come from the RimWorld 1.7 install root (Managed DLLs live there);
+       AlienRace.dll comes from the HAR 1.7 Assemblies next to this mod. All Private=False. -->
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>$(RimWorldDir)Assembly-CSharp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <!-- UnityStubs.dll provides the UnityEngine types (Rect, Vector2, ...) for 1.7 -->
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(RimWorldDir)UnityStubs.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <!-- HAR framework (contains ThingDef_AlienRace, AlienPartGenerator, Condition*, HarmonyPatches) -->
+    <Reference Include="AlienRace">
+      <HintPath>..\..\..\1.7\Assemblies\AlienRace.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+</Project>
